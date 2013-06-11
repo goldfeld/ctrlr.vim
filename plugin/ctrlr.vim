@@ -61,23 +61,23 @@ function! s:CtrlR()
     " clean/trim the listings with a map invocation.
     let l:hist = map(l:hist, "strpart(v:val, 9)")
 
-    let query = ''
+    let term = ''
     let match = ''
     while l:char != s:k.ESCAPE
       if l:char == s:k.RETURN | return l:match . "\<CR>"
       elseif l:char == s:k.BACKSPACE
-        let l:query = strpart(l:query, 0, len(l:query) - 1)
-        let l:match = l:query
-      else | let l:query = l:query . nr2char(l:char)
+        let l:term = strpart(l:term, 0, len(l:term) - 1)
+        let l:match = l:term
+      else | let l:term = l:term . nr2char(l:char)
       endif
 
       for entry in l:hist
-        if match(entry, '\c'.l:query) != -1
+        if match(entry, '\c'.l:term) != -1
           let l:match = entry | break
         endif
       endfor
 
-      echo "(reverse-i-search)`" . l:query . "': " . l:match
+      echo "(reverse-i-search)`" . l:term . "': " . l:match
       let l:char = getchar()
     endwhile
     return l:match
