@@ -35,8 +35,8 @@ let g:loaded_ctrlr = 1
 set history=1000
 
 let s:k = {
-  \ 'RETURN': 13, 'BACKSPACE': 8, 'ESCAPE': 27,
-  \ 'CTRL_R': 18, 'CTRL_W': 23
+  \ 'RETURN': 13, 'BACKSPACE': 8, 'ESCAPE': 27, 'CTRL_U': 21,
+  \ 'CTRL_R': 18, 'CTRL_W': 23, 'CTRL_L': 12
   \ }
 
 cnoremap <expr> <C-R> <SID>ctrlr()
