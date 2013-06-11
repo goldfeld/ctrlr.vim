@@ -46,7 +46,7 @@ function! s:ctrlr()
   if len(getcmdline())
     let key = nr2char(l:char)
     if l:key =~# '[0-9a-z"%#:-=.]' | return getreg(l:key)
-    elseif l:char == 23 | return expand('<cword>')
+    elseif l:char == s:k.CTRL_W | return expand('<cword>')
     endif
 
   else 
