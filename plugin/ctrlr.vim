@@ -56,11 +56,11 @@ function! s:ctrlr()
 
     " split the history into a list, exclude the '#  cmd history' header, and
     " reverse it to have more recent history on lower indexes.
-    let hist = reverse(split(@r, '\n')[1:])
+    let cmdhist = reverse(split(@r, '\n')[1:])
     " remove the '>' from the most recent listing.
-    let l:hist[0] = substitute(l:hist[0], '^>', ' ', '')
+    let l:cmdhist[0] = substitute(l:cmdhist[0], '^>', ' ', '')
     " clean/trim the listings with a map invocation.
-    let l:hist = map(l:hist, "strpart(v:val, 9)")
+    let l:cmdhist = map(l:cmdhist, "strpart(v:val, 9)")
 
     let term = ''
     let match = ''
@@ -72,7 +72,7 @@ function! s:ctrlr()
       else | let l:term = l:term . nr2char(l:char)
       endif
 
-      for entry in l:hist
+      for entry in l:cmdhist
         if match(entry, '\c'.l:term) != -1
           let l:match = entry | break
         endif
