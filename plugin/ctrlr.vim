@@ -83,4 +83,5 @@ function! s:ctrlr()
       let l:char = getchar()
     endwhile
     return l:match
+  endif
 endfunction
