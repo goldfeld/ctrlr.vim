@@ -39,8 +39,9 @@ let s:k = {
   \ 'CTRL_R': 18, 'CTRL_W': 23
   \ }
 
-cnoremap <expr> <C-R> s:CtrlR()
-function! s:CtrlR()
+cnoremap <expr> <C-R> <SID>ctrlr()
+
+function! s:ctrlr()
   let char = getchar()
   if len(getcmdline())
     let key = nr2char(l:char)
