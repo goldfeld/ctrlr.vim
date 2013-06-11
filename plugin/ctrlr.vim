@@ -64,24 +64,39 @@ function! s:ctrlr()
     let l:cmdhist = map(l:cmdhist, "strpart(v:val, 9)")
 
     let term = ''
-    let match = ''
+    let currentmatch = ''
+    let skip = 0
     while l:char != s:k.ESCAPE
-      if l:char == s:k.RETURN | return l:match . "\<CR>"
-      elseif l:char == s:k.BACKSPACE
-        let l:term = strpart(l:term, 0, len(l:term) - 1)
-        let l:match = l:term
-      else | let l:term = l:term . nr2char(l:char)
+      if l:char == s:k.RETURN | return l:currentmatch . "\<CR>"
+      else
+        " whenever the user presses an additional ^R, that means he wants to
+        " skip the current match, but if he presses any other editing escape
+        " sequence or a char, we need to reset his skips.
+        let l:skip = 0
+
+        if l:char == s:k.BACKSPACE
+          let l:term = strpart(l:term, 0, len(l:term) - 1)
+          let l:currentmatch = l:term
+        else | let l:term = l:term . nr2char(l:char)
+        endif
       endif
 
+      let l:skipCount = l:skip
+      let l:found = 0
       for entry in l:cmdhist
         if match(entry, '\c'.l:term) != -1
-          let l:match = entry | break
+          if l:skipCount | let l:skipCount -= 1
+          else
+            let l:currentmatch = entry
+            let l:found = 1
+            break
+          endif
         endif
       endfor
 
-      echo "(reverse-i-search)`" . l:term . "': " . l:match
+      echo "(reverse-i-search)`" . l:term . "': " . l:currentmatch
       let l:char = getchar()
     endwhile
-    return l:match
   endif
+  return l:currentmatch
 endfunction
