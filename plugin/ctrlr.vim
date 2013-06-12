@@ -91,13 +91,15 @@ function! s:ctrlr()
       let l:skipCount = l:skip
       let l:found = 0
       for entry in l:cmdhist
-        if match(entry, '\c'.l:term) != -1
+        if stridx(entry, l:term) != -1
+
           if l:skipCount | let l:skipCount -= 1
           else
             let l:currentmatch = entry
             let l:found = 1
             break
           endif
+
         endif
       endfor
 
