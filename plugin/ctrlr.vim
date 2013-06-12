@@ -80,6 +80,10 @@ function! s:ctrlr()
         if l:char == s:k.BACKSPACE
           let l:term = strpart(l:term, 0, len(l:term) - 1)
           let l:currentmatch = l:term
+
+        elseif l:char == s:k.CTRL_U | let l:term = ''
+        elseif l:char == s:k.CTRL_W | let l:term = ''
+
         else | let l:term = l:term . nr2char(l:char)
         endif
       endif
