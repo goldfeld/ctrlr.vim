@@ -68,6 +68,7 @@ function! s:ctrlr()
     let skip = 0
     while l:char != s:k.ESCAPE
       if l:char == s:k.RETURN | return l:currentmatch . "\<CR>"
+      elseif l:char == s:k.CTRL_R | let l:skip += 1
       else
         " whenever the user presses an additional ^R, that means he wants to
         " skip the current match, but if he presses any other editing escape
