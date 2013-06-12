@@ -67,6 +67,8 @@ function! s:ctrlr()
     let currentmatch = ''
     let skip = 0
     while l:char != s:k.ESCAPE
+      let previousTerm = l:term
+
       if l:char == s:k.RETURN | return l:currentmatch . "\<CR>"
       elseif l:char == s:k.CTRL_R | let l:skip += 1
       else
@@ -94,6 +96,9 @@ function! s:ctrlr()
           endif
         endif
       endfor
+
+      " if we found no new match, don't show the new char (if applicable)
+      if !l:found | let l:term = l:previousTerm | endif
 
       echo "(reverse-i-search)`" . l:term . "': " . l:currentmatch
       let l:char = getchar()
