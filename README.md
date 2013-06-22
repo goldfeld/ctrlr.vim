@@ -1,4 +1,4 @@
-# Introduction
+# Introduction [![Flattr this plugin](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=goldfeld&url=https://github.com/goldfeld/ctrlr.vim&title=ctrlr.vim&language=en&tags=github&category=software)
 
 CtrlR faithfully emulates the reverse search functionality found in the Bourne-again shell because, well, I couldn't vim without it anymore. My every ^P just screamed for ^R.
 
