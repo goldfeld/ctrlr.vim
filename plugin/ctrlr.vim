@@ -36,7 +36,7 @@ set history=1000
 
 let s:k = {
   \ 'RETURN': 13, 'BACKSPACE': 8, 'ESCAPE': 27, 'CTRL_U': 21,
-  \ 'CTRL_R': 18, 'CTRL_W': 23, 'CTRL_L': 12
+  \ 'CTRL_R': 18, 'CTRL_W': 23, 'CTRL_A': 1, 'CTRL_L': 12
   \ }
 
 cnoremap <expr> <C-R> <SID>ctrlr()
@@ -47,6 +47,7 @@ function! s:ctrlr()
     let key = nr2char(l:char)
     if l:key =~# '[0-9a-z"%#:-=.]' | return getreg(l:key)
     elseif l:char == s:k.CTRL_W | return expand('<cword>')
+    elseif l:char == s:k.CTRL_A | return expand('<cWORD>')
     elseif l:char == s:k.CTRL_L | return getline('.')
     endif
 
