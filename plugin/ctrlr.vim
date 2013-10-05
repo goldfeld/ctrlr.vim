@@ -36,7 +36,7 @@ set history=1000
 
 let s:k = {
   \ 'RETURN': 13, 'BACKSPACE': 8, 'ESCAPE': 27, 'CTRL_U': 21,
-  \ 'CTRL_R': 18, 'CTRL_W': 23, 'CTRL_A': 1, 'CTRL_L': 12
+  \ 'CTRL_R': 18, 'CTRL_W': 23, 'CTRL_A': 1, 'CTRL_L': 12, 'CTRL_M': 13
   \ }
 
 cnoremap <expr> <C-R> <SID>ctrlr()
@@ -45,10 +45,28 @@ function! s:ctrlr()
   let char = getchar()
   if len(getcmdline())
     let key = nr2char(l:char)
+
     if l:key =~# '[0-9a-z"%#:-=.]' | return getreg(l:key)
     elseif l:char == s:k.CTRL_W | return expand('<cword>')
     elseif l:char == s:k.CTRL_A | return expand('<cWORD>')
     elseif l:char == s:k.CTRL_L | return getline('.')
+
+    elseif l:char == s:k.CTRL_M
+      let [linenr, pos] = [line('.'), col('.')]
+      let linetext = getline(l:linenr)
+      let opening = strridx(l:linetext[: l:pos], '`')
+      if l:opening == -1 | return '' | endif
+
+      let result = l:linetext[l:opening :]
+      let [l:linetext, closing] = ['', -1]
+      while l:closing == -1 && l:linenr <= line('$')
+        let l:linenr += 1
+        let l:linetext = getline(l:linenr)
+        let l:result .= ' ' . l:linetext
+        let l:closing = stridx(l:linetext[l:pos :], '`')
+      endwhile
+
+      return l:result " . l:linetext[: l:closing]
     endif
 
   else 
